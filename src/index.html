@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>DGS Electric</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="../css/pure-min.css">
+        <link rel="stylesheet" href="../css/style.css">
+
+    </head>
+    <body>
+        
+        <div id="layout">
+            <div id="menu"></div>
+            <div id="content"></div>
+        </div>
+    </body>
+
+    <!-- inject:js -->
+    <!-- endinject -->
+
+    <script>window.$ = window.jQuery = require('../lib/jquery-3.1.1.min.js');</script>
+    <script>
+        System.config({
+            map: {
+                'react': '../node_modules/react/dist/react.js',
+                'react-dom': '../node_modules/react-dom/dist/react-dom.js'
+            },
+            packages: {
+                js: {
+                    defaultExtension: 'js'
+                }
+            }
+        });
+        System.import('js/index.js').then(null, console.error.bind(console));
+    </script>    
+</html>
