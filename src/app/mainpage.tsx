@@ -1,4 +1,4 @@
-import Login from './login';
+import YourMove from './yourmove';
 import Menu from './menu';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -11,7 +11,7 @@ export default class MainPage {
             document.getElementById('menu')
         );
         ReactDOM.render(
-            <Login />,
+            <YourMove />,
             document.getElementById('content')
         );
 

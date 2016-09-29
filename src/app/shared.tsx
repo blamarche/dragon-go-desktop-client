@@ -2,12 +2,20 @@ import Login from './login'
 import YourMove from './yourmove'
 import Current from './current'
 import Recent from './recent'
+import About from './about'
 import Game from './game'
 
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
 export default class Shared {
+
+    public static ShowAbout = () => {
+        ReactDOM.render(
+            <About />,
+            document.getElementById('content')
+        );
+    }
 
     public static ShowGame = (id:number) => {
         ReactDOM.render(

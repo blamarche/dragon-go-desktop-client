@@ -24,10 +24,13 @@ export default class YourMove extends React.Component<Props, State> {
     }
 
     private componentDidMount = () => {
+        var $ = (window as any).$;
         Shared.DGSRequest("quick_do.php?obj=game&cmd=list&view=status&with=user_id&limit=all&lstyle=json", (data:any)=>{
             if (JSON.stringify(data).indexOf("not_logged_in")>=0) {
+                $("#logoutbutton").hide();
                 Shared.ShowLogin();
-            } else {
+            } else {                
+                $("#logoutbutton").show();
                 this.setState({ games: data.list_result });
             }            
         }, ()=>{ alert("Server error, please try again"); })

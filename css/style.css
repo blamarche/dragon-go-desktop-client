@@ -34,18 +34,32 @@ table {
 
 .button-success {
     background: rgb(28, 184, 65); /* this is a green */
+    color:white;
 }
 
 #content {
     padding-left: 180px; /* same as menu +20*/
-    padding-right: 20px;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    padding-right: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 #login {
     margin: 200px auto;
     width: 400px;
+}
+
+#about {
+    font-size: 18px;
+}
+
+#board {
+    cursor:pointer;
+    text-align: center;
+}
+
+#gamebuttons {
+    text-align: center;
 }
 
 

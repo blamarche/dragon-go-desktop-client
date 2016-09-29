@@ -18,9 +18,20 @@ export default class Menu extends React.Component<{}, {}> {
                         <li className="pure-menu-item"><a href="#" onClick={this.yourmoveClick.bind(this)} className="pure-menu-link">Your Move</a></li>
                         <li className="pure-menu-item"><a href="#" onClick={this.currentClick.bind(this)} className="pure-menu-link">Current Games</a></li>
                         <li className="pure-menu-item"><a href="#" onClick={this.recentClick.bind(this)} className="pure-menu-link">Recently Finished</a></li>
+                        <hr />
+                        <li id="logoutbutton" className="pure-menu-item"><a href="#" onClick={this.logoutClick.bind(this)} className="pure-menu-link">Logout</a></li>
+                        
                     </ul>
                 </div>
         ); // menu-item-divided pure-menu-selected
+    }
+    
+    private logoutClick = () => {
+        Shared.DGSRequest("login.php?quick_mode=1&logout=1", (data:string) => {
+            var $ = (window as any).$;
+            $("#logoutbutton").hide();
+            Shared.ShowLogin();
+        }, ()=>{ alert("Server Error, please try again"); });
     }
 
     private loginClick = () => {
@@ -28,7 +39,7 @@ export default class Menu extends React.Component<{}, {}> {
     }
 
     private aboutClick = () => {
-        alert("DGS Electric is an open source client for the awesome Dragon Go Server. It was created by ElectricFalcon.net");
+        Shared.ShowAbout();
     }
 
     private currentClick = () => {
