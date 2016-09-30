@@ -21,7 +21,7 @@ function createWindow () {
   mainWindow.once('ready-to-show', mainWindow.show)
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
   
   // save window size and position
   mainWindow.on('close', () => {

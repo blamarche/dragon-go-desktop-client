@@ -37,6 +37,11 @@ table {
     color:white;
 }
 
+.button-secondary {
+    background: rgb(28, 105, 174); /* this is a blueish */
+    color:white;
+}
+
 #content {
     padding-left: 180px; /* same as menu +20*/
     padding-right: 10px;
@@ -61,6 +66,23 @@ table {
 #gamebuttons {
     text-align: center;
 }
+
+.gameinfo {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    z-index: 5000;
+    width: 150px;
+    padding: 5px;
+    font-size: 14px;
+    line-height: 20px;
+    background: #303030;
+    color: #eeeeee;
+}
+    .gameinfo h4 {
+        margin: 5px 0;
+        text-align: center;
+    }
 
 
 /* menu */

@@ -22,19 +22,65 @@ export default class Game extends React.Component<Props, State> {
                 <div style={{textAlign:"center"}}>{this.state.gameData.black_user ? this.state.gameData.black_user.name : ""} vs. {this.state.gameData.white_user ? this.state.gameData.white_user.name : ""}</div>
                 <div id="board"></div>
                 <div id="gamebuttons">
-                    { this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.resetClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
+                    { this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
+                    &nbsp;{ this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
                     &nbsp;<button onClick={this.resetClick.bind(this)} className="pure-button">Reset</button>
                 </div>
-                <div style={{overflow:"scroll",width:"300px",height:"100px"}}>{JSON.stringify(this.state.gameData)}</div><hr/>
+                <div style={{display:"none"}}>{JSON.stringify(this.state.gameData)}</div>
+                <div style={{display:"none"}}>{this.state.sgf}</div>
+                {this.state.gameData.black_user ? <div className="gameinfo">
+                    <h4>Game Info</h4>
+                    Black: {this.state.gameData.black_user.name}<br/>
+                    Prisoners (B): {this.state.gameData.black_gameinfo.prisoners}<br/>
+                    Time (W): {this.state.gameData.black_gameinfo.remtime}<br/>
+                    <hr/>
+                    White: {this.state.gameData.white_user.name}<br/>
+                    Prisoners (W): {this.state.gameData.white_gameinfo.prisoners}<br/>
+                    Time (W): {this.state.gameData.white_gameinfo.remtime}<br/>
+                    <hr/>
+                    Komi: {this.state.gameData.komi}<br/>
+                    Scoring: {this.state.gameData.ruleset}<br/>  
+                    {this.state.gameData.score!="" ? "Score: "+this.state.gameData.score : ""}                  
+                </div> : ""}
             </div>
         );
     }
 
-    /*
-    private componentDidUpdate = () => {
-        this.setupBoard(this.state.gameData, this.state.sgf);
+    private passClick = (ev:MouseEvent) => {
+        var btn=(ev.currentTarget as HTMLButtonElement); 
+        btn.disabled=true;
+        if (confirm("Are you sure you wish to pass?")) {
+            var move = "pass";
+            Shared.DGSRequest("quick_do.php?obj=game&cmd=move&gid="+this.state.gameData.id+"&move_id="+this.state.gameData.move_id+"&move="+move+"", (data:any) => { 
+                btn.disabled=false;
+                if (data.error=="") {
+                    Shared.ShowYourMove();
+                } else {
+                    alert("Error occurred submitting move: "+data.error);
+                }
+            }, ()=>{ btn.disabled=false; alert("Server Error. Please try again later."); });
+        }
     }
-    */
+
+    private submitClick = (ev:MouseEvent) => {
+        var btn=(ev.currentTarget as HTMLButtonElement); 
+        btn.disabled=true;
+        //&msg= optional
+        var jboard = (window as any).jboard;
+        if (jboard.firstMove!=null) {       
+            var move = jboard.firstMove.toString();
+            Shared.DGSRequest("quick_do.php?obj=game&cmd=move&gid="+this.state.gameData.id+"&move_id="+this.state.gameData.move_id+"&move="+move+"", (data:any) => { 
+                btn.disabled=false;
+                if (data.error=="") {
+                    Shared.ShowYourMove();
+                } else {
+                    alert("Error occurred submitting move: "+data.error);
+                }
+            }, ()=>{ btn.disabled=false; alert("Server Error. Please try again later."); });
+        } else {
+            alert("You need to make a move!");
+        }
+    }
 
     private resetClick = () => {
         while (document.getElementById('board').children.length>0)  
@@ -48,7 +94,7 @@ export default class Game extends React.Component<Props, State> {
             if (JSON.stringify(data).indexOf("not_logged_in")>=0) {
                 Shared.ShowLogin();
             } else {
-                Shared.DGSRequest("sgf.php?gid="+this.props.gameId.toString()+"&owned_comments=1&quick_mode=1", (sgfdata:any)=>{
+                Shared.DGSRequest("sgf.php?gid="+this.props.gameId.toString()+"&owned_comments=1&quick_mode=1&no_cache=1", (sgfdata:any)=>{
                     this.setState({ gameData: data, sgf: sgfdata });
                     this.setupBoard(data, sgfdata);
                 }, ()=>{ alert("Server error, please try again"); });
@@ -65,7 +111,6 @@ export default class Game extends React.Component<Props, State> {
         JGO.BOARD.custom(data.size, window.innerWidth-180, window.innerHeight-50, {}, function(boardopt){
             jsetup = new JGO.Setup(jboard, boardopt); //JGO.BOARD.mediumWalnut);
             
-            // we can use this to change the board to listen to
             var notifier = jsetup.getNotifier();
             var lastHover = false, lastX = -1, lastY = -1; // hover helper vars
             var ko = false, lastMove = false;
@@ -123,7 +168,8 @@ export default class Game extends React.Component<Props, State> {
                                 jboard.firstMove = coord;
 
                             node.setMark(coord, JGO.MARK.CIRCLE); // mark move
-                            node.setMark(jboard.firstMove, JGO.MARK.SQUARE);
+                            if (data.my_id == data.move_uid)
+                                node.setMark(jboard.firstMove, JGO.MARK.SQUARE);
                             lastMove = coord;
 
                             if(play.ko)
