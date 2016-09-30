@@ -19,13 +19,9 @@ export default class Game extends React.Component<Props, State> {
         return (
             <div id="game">
                 {this.state.sgf=="" ? <Loader/> : ""}
-                <div style={{textAlign:"center"}}>{this.state.gameData.black_user ? this.state.gameData.black_user.name : ""} vs. {this.state.gameData.white_user ? this.state.gameData.white_user.name : ""}</div>
+                <div style={{textAlign:"center", display:"none"}}>{this.state.gameData.black_user ? this.state.gameData.black_user.name : ""} vs. {this.state.gameData.white_user ? this.state.gameData.white_user.name : ""}</div>
                 <div id="board"></div>
-                <div id="gamebuttons">
-                    { this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
-                    &nbsp;{ this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
-                    &nbsp;<button onClick={this.resetClick.bind(this)} className="pure-button">Reset</button>
-                </div>
+                
                 <div style={{display:"none"}}>{JSON.stringify(this.state.gameData)}</div>
                 <div style={{display:"none"}}>{this.state.sgf}</div>
                 {this.state.gameData.black_user ? <div className="gameinfo">
@@ -41,6 +37,13 @@ export default class Game extends React.Component<Props, State> {
                     Komi: {this.state.gameData.komi}<br/>
                     Scoring: {this.state.gameData.ruleset}<br/>  
                     {this.state.gameData.score!="" ? "Score: "+this.state.gameData.score : ""}                  
+                    
+                    <hr/>
+                    <div id="gamebuttons">
+                        { this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
+                        &nbsp;{ this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
+                        &nbsp;<button onClick={this.resetClick.bind(this)} className="pure-button">Reset</button>
+                    </div>
                 </div> : ""}
             </div>
         );
@@ -108,7 +111,7 @@ export default class Game extends React.Component<Props, State> {
         var jrecord = JGO.sgf.load(sgfdata, true);
         var jboard = jrecord.getBoard();// = new JGO.Board(data.size, data.size);
         var jsetup;
-        JGO.BOARD.custom(data.size, window.innerWidth-180, window.innerHeight-50, {}, function(boardopt){
+        JGO.BOARD.custom(data.size, window.innerWidth-180, window.innerHeight-5, {}, function(boardopt){
             jsetup = new JGO.Setup(jboard, boardopt); //JGO.BOARD.mediumWalnut);
             
             var notifier = jsetup.getNotifier();
@@ -172,15 +175,16 @@ export default class Game extends React.Component<Props, State> {
                                 node.setMark(jboard.firstMove, JGO.MARK.SQUARE);
                             lastMove = coord;
 
-                            if(play.ko)
+                            if (play.ko)
                                 node.setMark(play.ko, JGO.MARK.CIRCLE); // mark ko, too
                             ko = play.ko;
 
                             var playertmp = player;
                             player = opponent;
                             opponent = playertmp;
-                        } else 
-                            alert('Illegal move: ' + play.errorMsg);
+                        } else { 
+                            //alert('Illegal move: ' + play.errorMsg);
+                        }
                     });
                 }
 

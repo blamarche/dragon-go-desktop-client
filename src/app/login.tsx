@@ -8,9 +8,8 @@ export default class Login extends React.Component<{}, {}> {
         return (
             <div id="login">
                 <form className="pure-form">
-                    DGS Electric
+                    <div style={{textAlign:"center"}}><img src="../css/dragon_logo.png" /></div>
                     <fieldset className="pure-group">
-
                         <input id="user" type="text" className="pure-input-1" placeholder="Username" />
                         <input id="pass" type="password" className="pure-input-1" placeholder="Password" />
                     </fieldset>

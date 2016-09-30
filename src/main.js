@@ -21,7 +21,17 @@ function createWindow () {
   mainWindow.once('ready-to-show', mainWindow.show)
 
   // Open the DevTools.
-  //mainWindow.webContents.openDevTools()
+  electron.globalShortcut.register('Control+Shift+I', () => {
+    mainWindow.webContents.openDevTools();
+    electron.dialog.showMessageBox(
+      {
+        title: "Warning",
+        message:"You've opened the debugging console. Please note this *breaks* the 'Your Move' notifications until you restart the app.",
+        type: "warning",
+        buttons: ["OK"]
+      }
+    );
+  });
   
   // save window size and position
   mainWindow.on('close', () => {

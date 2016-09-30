@@ -9,18 +9,23 @@ export default class Menu extends React.Component<{}, {}> {
     public render() {
         return (
             <div className="pure-menu">
-                    <a className="pure-menu-heading">DGS Electric</a>
+                    <a className="pure-menu-heading">
+                        <img src="../css/dragon_logo.png" /><br/>
+                        DGS<br/>Electric
+                    </a>
 
                     <ul className="pure-menu-list">
-                        <li className="pure-menu-item"><a href="#" onClick={this.loginClick.bind(this)} className="pure-menu-link">Login</a></li>
+                        <li id="loginbutton" className="pure-menu-item"><a href="#" onClick={this.loginClick.bind(this)} className="pure-menu-link">Login</a></li>
+                        <li id="logoutbutton" className="pure-menu-item"><a href="#" onClick={this.logoutClick.bind(this)} className="pure-menu-link">Logout</a></li>
                         <li className="pure-menu-item"><a href="#" onClick={this.aboutClick.bind(this)} className="pure-menu-link">About DGS Electric</a></li>
                         <hr />
                         <li className="pure-menu-item"><a href="#" onClick={this.yourmoveClick.bind(this)} className="pure-menu-link">Your Move</a></li>
                         <li className="pure-menu-item"><a href="#" onClick={this.currentClick.bind(this)} className="pure-menu-link">Current Games</a></li>
                         <li className="pure-menu-item"><a href="#" onClick={this.recentClick.bind(this)} className="pure-menu-link">Recently Finished</a></li>
                         <hr />
-                        <li id="logoutbutton" className="pure-menu-item"><a href="#" onClick={this.logoutClick.bind(this)} className="pure-menu-link">Logout</a></li>
-                        
+                        <li className="pure-menu-item"><a href="https://www.dragongoserver.net/new_game.php" target="_blank" className="pure-menu-link">New Game</a></li>
+                        <li className="pure-menu-item"><a href="https://www.dragongoserver.net/waiting_room.php" target="_blank" className="pure-menu-link">Join Game</a></li>
+                        <li className="pure-menu-item"><a href="https://www.dragongoserver.net/show_games.php?uid=all" target="_blank" className="pure-menu-link">Observe Games</a></li>                        
                     </ul>
                 </div>
         ); // menu-item-divided pure-menu-selected
@@ -30,6 +35,7 @@ export default class Menu extends React.Component<{}, {}> {
         Shared.DGSRequest("login.php?quick_mode=1&logout=1", (data:string) => {
             var $ = (window as any).$;
             $("#logoutbutton").hide();
+            $("#loginbutton").hide();
             Shared.ShowLogin();
         }, ()=>{ alert("Server Error, please try again"); });
     }

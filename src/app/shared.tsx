@@ -25,6 +25,9 @@ export default class Shared {
     }
 
     public static ShowLogin = () => {
+        var $ = (window as any).$;
+        $("#logoutbutton").hide();
+        $("#loginbutton").show();
         ReactDOM.render(
             <Login />,
             document.getElementById('content')

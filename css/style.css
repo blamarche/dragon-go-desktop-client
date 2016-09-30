@@ -21,7 +21,8 @@ input {
 }
 
 hr {
-    border: 1px solid #444;
+    border: none;
+    border-top: 1px solid #444;
 }
 
 table {
@@ -50,9 +51,12 @@ table {
 }
 
 #login {
-    margin: 200px auto;
+    margin: 60px auto;
     width: 400px;
 }
+    #login img {
+        margin-bottom: 20px;
+    }
 
 #about {
     font-size: 18px;
@@ -76,9 +80,13 @@ table {
     padding: 5px;
     font-size: 14px;
     line-height: 20px;
-    background: #303030;
+    background: #1f6da6;
     color: #eeeeee;
 }
+    .gameinfo hr {
+        border: none;
+        border-top: 1px solid #ddd;
+    }
     .gameinfo h4 {
         margin: 5px 0;
         text-align: center;
@@ -189,7 +197,17 @@ appears on the left side of the page.
     This styles the menu heading.
     */
     #menu .pure-menu-heading {
-        font-size: 110%;
+        font-size: 100%;
         color: #fff;
         margin: 0;
+        text-transform: none;
+        text-align: right;
+        padding-bottom: 12px;
+        padding-right: 6px;
+        font-weight: bold;
+        font-style: italic;
     }
+        #menu .pure-menu-heading img {
+            width: 84px;
+            float: left;
+        }

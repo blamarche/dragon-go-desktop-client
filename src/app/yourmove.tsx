@@ -28,9 +28,11 @@ export default class YourMove extends React.Component<Props, State> {
         Shared.DGSRequest("quick_do.php?obj=game&cmd=list&view=status&with=user_id&limit=all&lstyle=json", (data:any)=>{
             if (JSON.stringify(data).indexOf("not_logged_in")>=0) {
                 $("#logoutbutton").hide();
+                $("#loginbutton").show();
                 Shared.ShowLogin();
             } else {                
                 $("#logoutbutton").show();
+                $("#loginbutton").hide();
                 this.setState({ games: data.list_result });
             }            
         }, ()=>{ alert("Server error, please try again"); })
