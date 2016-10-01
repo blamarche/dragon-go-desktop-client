@@ -10,7 +10,7 @@ declare var BrowserWindow: any;
 export default class MainPage {
 
     private lastNotifyContent:string = ""; 
-    private notifyFrequency:number = 5*60*1000;
+    private notifyFrequency:number = 5000;
 
     show() {
         ReactDOM.render(

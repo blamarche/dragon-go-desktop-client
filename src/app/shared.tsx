@@ -10,6 +10,8 @@ import ReactDOM from 'react-dom'
 
 export default class Shared {
 
+	public static VERSION:string = "v0.1.0";
+
     public static ShowAbout = () => {
         ReactDOM.render(
             <About />,

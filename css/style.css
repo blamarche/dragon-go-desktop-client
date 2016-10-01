@@ -39,7 +39,7 @@ table {
 }
 
 .button-secondary {
-    background: rgb(28, 105, 174); /* this is a blueish */
+    background: rgb(5, 210, 220); /* this is a blueish */
     color:white;
 }
 
@@ -69,6 +69,7 @@ table {
 
 #gamebuttons {
     text-align: center;
+	line-height: 34px;
 }
 
 .gameinfo {
