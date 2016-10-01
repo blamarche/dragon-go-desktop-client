@@ -40,8 +40,9 @@ export default class Game extends React.Component<Props, State> {
                     
                     <hr/>
                     <div id="gamebuttons">
-                        { this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
-                        &nbsp;{ this.state.gameData.my_id && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
+                        { this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
+                        &nbsp;{ this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
+                        {this.state.gameData.status.indexOf("SCORE")==0 ? <a target="_blank" href={"https://www.dragongoserver.net/game.php?gid="+this.state.gameData.id} className="button-secondary pure-button">Score</a> : ""}
                         &nbsp;<button onClick={this.resetClick.bind(this)} className="pure-button">Reset</button>
                     </div>
                 </div> : ""}
@@ -82,6 +83,7 @@ export default class Game extends React.Component<Props, State> {
             }, ()=>{ btn.disabled=false; alert("Server Error. Please try again later."); });
         } else {
             alert("You need to make a move!");
+            btn.disabled=false;
         }
     }
 

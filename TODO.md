@@ -1,5 +1,5 @@
 * win7 and older balloon tips (maybe)
-* scoring phase
+* better scoring phase
 * window icon
 * webgl goban view
 * readme
