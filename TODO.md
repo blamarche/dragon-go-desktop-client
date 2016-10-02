@@ -1,5 +1,5 @@
-* win7 and older balloon tips (maybe)
 * better scoring phase
-* window icon
+* window/binary icon
 * webgl goban view
-* readme
+* back/forward nav in a game
+* toggle showing of move numbers

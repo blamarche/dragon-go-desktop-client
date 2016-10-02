@@ -5,14 +5,24 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 declare var Notification: any;
-declare var BrowserWindow: any;
+declare var process: any;
+declare var electron: any;
 
 export default class MainPage {
 
     private lastNotifyContent:string = ""; 
-    private notifyFrequency:number = 5*60*1000;
+    private notifyFrequency:number = 10*60*1000; //10 minutes
+    private notifyMethod:string = "native";
 
     show() {
+        if (Shared.GetCmdArg(2)=="--short") {
+            this.notifyFrequency = 5000;
+            console.log("Short 5 sec notify interval enabled");
+        }
+        if (process.platform=="win32") { //can't believe electron doesnt have their own chrome-style notifiers for windows
+            this.notifyMethod = "toaster";
+        }
+
         ReactDOM.render(
             <Menu />,
             document.getElementById('menu')
@@ -38,10 +48,29 @@ export default class MainPage {
                     }
                     
                     if (this.lastNotifyContent != JSON.stringify(o) && data.list_result.length>0){
-                        
-                        var n = new Notification('DGS Electric', {
-                            body: "You have "+data.list_result.length+" game(s) on your move."
-                        });
+                        switch(this.notifyMethod) {
+                            case "alert":
+                                alert("You have "+data.list_result.length+" game(s) on your move.");
+                                break;
+
+                            case "toaster":
+                                var msg = {
+                                    title : "DGS Electric",
+                                    message : "You have "+data.list_result.length+" game(s) on your move.",
+                                    width : 300,
+                                    // height : 160, window will be autosized
+                                    timeout : 6000,
+                                    focus: false, // do not set focus back to main window
+                                    show: true
+                                };
+                                electron.ipcRenderer.send('electron-toaster-message', msg);
+
+                            case "native":
+                                var n = new Notification('DGS Electric', {
+                                    body: "You have "+data.list_result.length+" game(s) on your move."
+                                });
+                                break;
+                        }                        
                         this.lastNotifyContent = JSON.stringify(o);
                     }                    
                 }            
@@ -49,4 +78,4 @@ export default class MainPage {
         }
         setTimeout(this.checkMoveNotify.bind(this), this.notifyFrequency);
     }
-};
+}

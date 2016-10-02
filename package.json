@@ -33,6 +33,7 @@
     "react": "^15.0.2",
     "react-dom": "^15.0.2",
     "systemjs": "^0.19.27",
-    "electron-config": "^0.2.1"
+    "electron-config": "^0.2.1",
+    "electron-toaster": "^2.0.2"
   }
 }

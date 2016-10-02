@@ -6,14 +6,18 @@ const BrowserWindow = electron.BrowserWindow
 const Config = require('electron-config')
 const config = new Config()
 
+const Toaster = require('electron-toaster');
+var toaster = new Toaster();
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
 function createWindow () {
-  let opts = {show: false}
+  let opts = {show: false, icon: __dirname+"/dragon_logo.ico"}
   Object.assign(opts, config.get('winBounds'))
   mainWindow = new BrowserWindow(opts)
+  toaster.init(mainWindow);
   mainWindow.setMenu(null);
 
   // and load the index.html of the app.

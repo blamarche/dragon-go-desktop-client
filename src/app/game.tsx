@@ -42,12 +42,19 @@ export default class Game extends React.Component<Props, State> {
                     <div id="gamebuttons">
                         { this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
                         &nbsp;{ this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
-                        {this.state.gameData.status.indexOf("SCORE")==0 ? <a target="_blank" href={"https://www.dragongoserver.net/game.php?gid="+this.state.gameData.id} className="button-secondary pure-button">Score</a> : ""}
+                        {this.state.gameData.status.indexOf("SCORE")==0 ? <a onClick={this.scoreClick.bind(this)} href={"https://www.dragongoserver.net/game.php?gid="+this.state.gameData.id} className="button-secondary pure-button">Score</a> : ""}
                         &nbsp;<button onClick={this.resetClick.bind(this)} className="pure-button">Reset</button>
                     </div>
                 </div> : ""}
             </div>
         );
+    }
+
+    private scoreClick = (ev:MouseEvent) => {
+        ev.preventDefault();
+        var targeturl = (ev.currentTarget as HTMLLinkElement).href;
+        Shared.ShowWebview(targeturl, false);
+        return false;
     }
 
     private passClick = (ev:MouseEvent) => {

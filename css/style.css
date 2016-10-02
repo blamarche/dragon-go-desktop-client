@@ -29,6 +29,17 @@ table {
     background: #303030;
 }
 
+webview {
+    width: 100%;
+    height: 95vh;
+    overflow: auto;
+}
+
+.webview-container {
+    width: 100%;
+    height: auto;
+}
+
 .button-xlarge {
     font-size: 125%;
 }
