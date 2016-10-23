@@ -28,7 +28,7 @@ export default class MainPage {
             document.getElementById('menu')
         );
         ReactDOM.render(
-            <YourMove />,
+            <YourMove json="" />,
             document.getElementById('content')
         );
 
@@ -72,6 +72,7 @@ export default class MainPage {
                                 break;
                         }                        
                         this.lastNotifyContent = JSON.stringify(o);
+                        Shared.ShowYourMove(JSON.stringify(data));
                     }                    
                 }            
             }, ()=>{ console.log("Server error checking for notifications") })

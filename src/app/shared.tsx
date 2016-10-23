@@ -61,10 +61,10 @@ export default class Shared {
         );
     }
 
-    public static ShowYourMove = () => {
+    public static ShowYourMove = (jsonstring:string = "") => {
         Shared.clearPage();
         ReactDOM.render(
-            <YourMove />,
+            <YourMove json={jsonstring} />,
             document.getElementById('content')
         );
     }
