@@ -13,7 +13,7 @@ declare var electron:any;
 
 export default class Shared {
 
-	public static VERSION:string = "v0.2.0";
+	public static VERSION:string = "v0.3.0";
 
     public static GetCmdArg = (pos:number):string => {
         var args = electron.remote.process.argv;

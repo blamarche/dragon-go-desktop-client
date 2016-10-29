@@ -11,8 +11,6 @@ export default class About extends React.Component<Props, State> {
             <div id="about">
                 DGS Electric is an open source client for the awesome <a href="http://www.dragongoserver.net">Dragon Go Server</a><br/> 
 				Version: {Shared.VERSION}<br/><br/>
-                It was created by <a target="_blank" href="http://www.electricfalcon.net">Electric Falcon</a><br/>
-                <br/>
                 <a target="_blank" href="https://github.com/blamarche/dragon-go-desktop-client" >DGS Electric - Github Project</a>
                 <br/><br/><br/>
                 Special Thanks: &nbsp;
@@ -21,6 +19,10 @@ export default class About extends React.Component<Props, State> {
                 <a target="_blank" href="https://github.com/jokkebk/jgoboard">jGoBoard</a>, &nbsp; 
                 <a target="_blank" href="https://facebook.github.io/react/">React</a>, 
                 and many more great open source projects!
+                <br/><br/>
+                Created by: <br/>
+                <a target="_blank" href="http://www.electricfalcon.net"><img src="http://www.electricfalcon.net/eflogo.jpg" style={{width:"213px"}} /></a>
+                
             </div>
         );
     }

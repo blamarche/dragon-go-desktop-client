@@ -1,7 +1,7 @@
 import Shared from './shared';
 import React from 'react';
 
-export interface Props { games:Array<any>, viewOrPlay:string }
+export interface Props { games:Array<any>, viewOrPlay:string, refresh:()=>{} }
 export interface State {}
 
 export default class GameList extends React.Component<Props, State> {
@@ -13,8 +13,7 @@ export default class GameList extends React.Component<Props, State> {
 
     public render() {
         return (
-            <div className="gamelist">
-                {this.props.games.length == 0 ? <span>No games found.<br/></span> : ""}
+            <div className="gamelist">                
                 <table className="pure-table">
                     <thead>
                         <tr>
@@ -28,7 +27,7 @@ export default class GameList extends React.Component<Props, State> {
                         </tr>
                     </thead>
                     <tbody>
-                    {this.props.games.map(function(game, i){
+                    {this.props.games.length == 0 ? <tr><td colSpan={7}>No games found.</td></tr> : null}{this.props.games.map(function(game, i){
                         return <tr key={i}>
                                 <td>{game.id}</td>
                                 <td>{game.black_user.name}</td>
@@ -47,6 +46,9 @@ export default class GameList extends React.Component<Props, State> {
                     }.bind(this))}
                     </tbody>
                 </table>
+                <div style={{width:"100%",paddingTop:"10px"}}>
+                    <button onClick={this.props.refresh} className="pure-button pure-input-1 button-small" type="button">Refresh</button>
+                </div>
             </div>
         );
     }

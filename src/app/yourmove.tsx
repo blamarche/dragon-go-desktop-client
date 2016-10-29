@@ -18,7 +18,7 @@ export default class YourMove extends React.Component<Props, State> {
         return (
             <div id="yourmoves">
                 <h3>Games On Your Move</h3>
-                { this.state.games==null ? <Loader /> : <GameList games={this.state.games} viewOrPlay="Play" /> }
+                { this.state.games==null ? <Loader /> : <GameList refresh={this.refresh.bind(this)} games={this.state.games} viewOrPlay="Play" /> }
             </div>
         );
     }
@@ -32,6 +32,13 @@ export default class YourMove extends React.Component<Props, State> {
                 this.populateList(data);
             }, ()=>{ alert("Server error, please try again"); })
         }
+    }
+
+    private refresh = () => {
+        this.setState({games:null, firstload:false});
+        Shared.DGSRequest("quick_do.php?obj=game&cmd=list&view=status&with=user_id&limit=all&lstyle=json", (data:any)=>{
+            this.populateList(data);
+        }, ()=>{ alert("Server error, please try again"); })
     }
 
     private populateList = (data:any) => {
