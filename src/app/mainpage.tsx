@@ -41,6 +41,7 @@ export default class MainPage {
     private resetTitle = () => {
         if (document.title!="DGS Electric")
             document.title = "DGS Electric";
+        setTimeout(this.resetTitle.bind(this), 3000);
     }
 
     private checkMoveNotify = () => {
