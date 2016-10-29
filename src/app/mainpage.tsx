@@ -34,6 +34,13 @@ export default class MainPage {
 
         //Setup 'your move' notification job
         setTimeout(this.checkMoveNotify.bind(this), this.notifyFrequency);
+        //Setup title reset job
+        setTimeout(this.resetTitle.bind(this), 3000);
+    }
+
+    private resetTitle = () => {
+        if (document.title!="DGS Electric")
+            document.title = "DGS Electric";
     }
 
     private checkMoveNotify = () => {
@@ -59,18 +66,20 @@ export default class MainPage {
                                     message : "You have "+data.list_result.length+" game(s) on your move.",
                                     width : 300,
                                     // height : 160, window will be autosized
-                                    timeout : 6000,
+                                    timeout : 60000,
                                     focus: false, // do not set focus back to main window
                                     show: true
                                 };
                                 electron.ipcRenderer.send('electron-toaster-message', msg);
+                                break;
 
                             case "native":
                                 var n = new Notification('DGS Electric', {
                                     body: "You have "+data.list_result.length+" game(s) on your move."
                                 });
                                 break;
-                        }                        
+                        }
+                        document.title = "DGS Electric ("+data.list_result.length+")";                        
                         this.lastNotifyContent = JSON.stringify(o);
                         Shared.ShowYourMove(JSON.stringify(data));
                     }                    

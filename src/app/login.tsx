@@ -20,7 +20,7 @@ export default class Login extends React.Component<{}, {}> {
                             <a target="_blank" href="https://www.dragongoserver.net/register.php">Don't have an account? Sign up here.</a>
                         </span>
                     </fieldset>
-                </form>
+                </form>                
             </div>
         );
     }
