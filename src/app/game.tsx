@@ -102,6 +102,7 @@ export default class Game extends React.Component<Props, State> {
     }
 
     private componentDidMount = () => {
+        document.body.style.overflowY = "hidden";
         Shared.DGSRequest("quick_do.php?obj=game&cmd=info&gid="+this.props.gameId.toString()+"&with=user_id&lstyle=json", (data:any)=>{
             if (JSON.stringify(data).indexOf("not_logged_in")>=0) {
                 Shared.ShowLogin();
@@ -114,13 +115,17 @@ export default class Game extends React.Component<Props, State> {
         }, ()=>{ alert("Server error, please try again"); })
     }
 
+    private componentWillUnmount =() => {
+        document.body.style.overflowY = "auto";
+    }
+
     private setupBoard = (data:any, sgfdata:any) => {
         var JGO = (window as any).JGO;
 
         var jrecord = JGO.sgf.load(sgfdata, true);
         var jboard = jrecord.getBoard();// = new JGO.Board(data.size, data.size);
         var jsetup;
-        JGO.BOARD.custom(data.size, window.innerWidth-180, window.innerHeight-5, {}, function(boardopt){
+        JGO.BOARD.custom(data.size, window.innerWidth-180, window.innerHeight-3, {}, function(boardopt){
             jsetup = new JGO.Setup(jboard, boardopt); //JGO.BOARD.mediumWalnut);
             
             var notifier = jsetup.getNotifier();
