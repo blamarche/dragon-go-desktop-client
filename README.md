@@ -9,10 +9,10 @@ DGS Electron is a clean and modern interface for playing Baduk on the Dragon Go 
  - Analyze games & Seamlessly submit moves
  - "Your Move" Notifications 
  - Dynamically sized board 
+ - Messaging
 
 #### Coming Soon
  - Scoring UI
- - Messaging
  - 3D board view
  - Move numbers
  - SVG stone graphics

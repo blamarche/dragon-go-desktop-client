@@ -3,7 +3,7 @@ import React from 'react';
 import Shared from './shared'
 
 export interface Props { gameId:number }
-export interface State { gameData:any, sgf:string }
+export interface State { gameData:any, sgf:string, comment:string }
 
 export default class Game extends React.Component<Props, State> {
 
@@ -11,7 +11,8 @@ export default class Game extends React.Component<Props, State> {
         super();
         this.state = {
             gameData:{},
-            sgf:""
+            sgf:"",
+            comment:""
         }
     }
 
@@ -36,10 +37,15 @@ export default class Game extends React.Component<Props, State> {
                     <hr/>
                     Komi: {this.state.gameData.komi}<br/>
                     Scoring: {this.state.gameData.ruleset}<br/>  
-                    {this.state.gameData.score!="" ? "Score: "+this.state.gameData.score : ""}                  
-                    
+                    {this.state.gameData.score!="" ? "Score: "+this.state.gameData.score : ""}    
+                    {this.state.comment!="" ? <div className="gamemessage"><hr/>{this.state.comment}</div> : ""}
                     <hr/>
                     <div id="gamebuttons">
+                        <form className="pure-form">
+                            <fieldset>
+                                { this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <input id="gamecomment" type="text" placeholder="Message (optional)" className=""></input> : ""}
+                            </fieldset>
+                        </form>
                         { this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.submitClick.bind(this)} className="button-success pure-button">Submit Move</button> : ""}
                         &nbsp;{ this.state.gameData.my_id && this.state.gameData.status.indexOf("SCORE")!=0 && this.state.gameData.my_id == this.state.gameData.move_uid ? <button onClick={this.passClick.bind(this)} className="button-secondary pure-button">Pass</button> : ""}
                         {this.state.gameData.status.indexOf("SCORE")==0 ? <a onClick={this.scoreClick.bind(this)} href={"https://www.dragongoserver.net/game.php?gid="+this.state.gameData.id} className="button-secondary pure-button">Score</a> : ""}
@@ -76,11 +82,15 @@ export default class Game extends React.Component<Props, State> {
     private submitClick = (ev:MouseEvent) => {
         var btn=(ev.currentTarget as HTMLButtonElement); 
         btn.disabled=true;
+        var messageinput = (document.getElementById("gamecomment") as HTMLInputElement);
+        var message = messageinput.value;
+        messageinput.value = "";
+        
         //&msg= optional
         var jboard = (window as any).jboard;
         if (jboard.firstMove!=null) {       
             var move = jboard.firstMove.toString();
-            Shared.DGSRequest("quick_do.php?obj=game&cmd=move&gid="+this.state.gameData.id+"&move_id="+this.state.gameData.move_id+"&move="+move+"", (data:any) => { 
+            Shared.DGSRequest("quick_do.php?obj=game&msg="+message+"&cmd=move&gid="+this.state.gameData.id+"&move_id="+this.state.gameData.move_id+"&move="+move+"", (data:any) => { 
                 btn.disabled=false;
                 if (data.error=="") {
                     Shared.ShowYourMove();
@@ -108,7 +118,13 @@ export default class Game extends React.Component<Props, State> {
                 Shared.ShowLogin();
             } else {
                 Shared.DGSRequest("sgf.php?gid="+this.props.gameId.toString()+"&owned_comments=1&quick_mode=1&no_cache=1", (sgfdata:any)=>{
-                    this.setState({ gameData: data, sgf: sgfdata });
+                    //see if theres a comment
+                    var JGO = (window as any).JGO;
+                    var tmprecord = JGO.sgf.load(sgfdata, true);
+                    while(tmprecord.next()!=null){  }   
+                    var message= (tmprecord.current.info.comment) ? tmprecord.current.info.comment : "";
+
+                    this.setState({ gameData: data, sgf: sgfdata, comment: message });
                     this.setupBoard(data, sgfdata);
                 }, ()=>{ alert("Server error, please try again"); });
             }            

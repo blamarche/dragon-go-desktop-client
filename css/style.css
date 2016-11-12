@@ -91,6 +91,15 @@ webview {
 	line-height: 34px;
 }
 
+#gamecomment {
+    width: 100%;
+    font-style: italic;
+}
+
+.pure-form fieldset {
+    padding: 1px;
+}
+
 .gameinfo {
     position: fixed;
     bottom: 0;
@@ -112,6 +121,9 @@ webview {
         text-align: center;
     }
 
+.gamemessage {
+    font-weight:bold;
+}
 
 /* menu */
 .pure-img-responsive {
