@@ -17,5 +17,15 @@ DGS Electron is a clean and modern interface for playing Baduk on the Dragon Go 
  - Move numbers
  - SVG stone graphics
 
+#### Compile
 
+```
+npm install
+npm install -g electron
+npm install -g typescript
+npm install -g typings
 
+npm start
+or
+sh build.sh
+```
